@@ -1,0 +1,71 @@
+<html>
+    <head>
+
+    </head>
+
+    <body>
+      <table id="table">
+       <tr>
+         <th>Id</th>
+         <th>Name</th>
+         <th>Email</th>
+       </tr>
+      </table>
+      <p id="p">server data</p>
+        <script>
+            var arr = []
+      var xmlHttp = new XMLHttpRequest();
+       
+       xmlHttp.onreadystatechange = function(){
+           if(this.readyState == 4 && this.status == 200)
+           {
+               arr = JSON.parse(this.responseText)
+               console.log(arr[0]);
+               intl = arr.length/5;
+     var i = 0;
+     for(i=0;i<intl;i++){
+      var x = document.createElement("button");
+      x.setAttribute('style','margin-left:10px')
+      x.setAttribute("id",i)
+      x.setAttribute('onclick',"myfun(" +i+ ")")
+      x.innerHTML = i;
+      document.body.appendChild(x);
+      }
+           }
+       }
+       xmlHttp.open("GET","https://5cdd0a92b22718001417c19d.mockapi.io/api/users",true);
+       xmlHttp.send();
+  
+ 
+      
+      var row = 1;
+      var z = 0;
+     function myfun(id){
+          initial = (id*5)+5;
+          end = initial - 5;
+        
+        
+          for(var i=end;i<initial;i++){
+            
+           //var a= document.createElement("li");
+           //a.innerHTML = "";
+          
+              var x = document.createElement("tr")
+              x.setAttribute("id",z);
+              document.getElementById("table").appendChild(x);
+              
+            Object.keys(arr[i]).forEach(function(element){
+                  var res = arr[i][element]
+                  console.log(res);
+                  var y = document.createElement("td");
+                  y.innerHTML = res;
+                  console.log(z);
+                  document.getElementById(z).appendChild(y);
+            })
+            z++;
+          }
+          
+      }
+        </script>
+    </body>
+</html>
